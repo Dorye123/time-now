@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Time Viewer</title>
+</head>
+<body>
+    <h1>Current Time Viewer</h1>
+    <div>
+        <label for="current-time">Current Time:</label>
+        <input type="text" id="current-time" readonly>
+    </div>
+    <button onclick="manualAPICall()">Get Current Time (Manual)</button>
+
+    <script>
+        function getCurrentTime() {
+            fetch('http://localhost:5000/current_time')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('current-time').innerText = data.current_time;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function manualAPICall() {
+            getCurrentTime();
+            document.getElementById('current-time').innerText += ' (Manual)';
+        }
+
+        // Call getCurrentTime() every 5 seconds
+        setInterval(getCurrentTime, 5000);
+
+        // Initial call to getCurrentTime()
+        getCurrentTime();
+    </script>
+</body>
+</html>
